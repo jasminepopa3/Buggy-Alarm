@@ -23,7 +23,7 @@ public class MediaPlayerService extends Service {
                     stopMusic();
                     break;
                 default:
-                    // nimic
+                    // nothing
                     break;
             }
         }
