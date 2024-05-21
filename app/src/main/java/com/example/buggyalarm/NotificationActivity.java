@@ -36,8 +36,7 @@ public class NotificationActivity extends AppCompatActivity {
     // Metoda pentru oprirea melodiei în MediaPlayerService
     private void stopMusic() {
         // Trimitem o comandă către MediaPlayerService pentru a opri redarea melodie
-        Intent intent = new Intent(this, MediaPlayerService.class);
-        intent.setAction("STOP");
-        startService(intent);
+        Intent intent = new Intent(this, QuizActivity.class);
+        startActivity(intent);
     }
 }

@@ -30,10 +30,20 @@ public class MediaPlayerService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    //fara loop
+    private boolean isRepeating = false;
+
     private void startMusic() {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(this, R.raw.melodie);
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    if (isRepeating) {
+                        // Repornim melodia când s-a terminat doar dacă este în modul de repetare
+                        mediaPlayer.start();
+                    }
+                }
+            });
             mediaPlayer.start();
         }
     }
@@ -43,8 +53,16 @@ public class MediaPlayerService extends Service {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+            // Setăm isRepeating pe false pentru a dezactiva modul de repetare
+            isRepeating = false;
         }
     }
+
+    // Metodă pentru a seta modul de repetare al melodiei
+    public void setRepeating(boolean repeating) {
+        isRepeating = repeating;
+    }
+
 
     @Nullable
     @Override
