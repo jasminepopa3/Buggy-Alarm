@@ -7,6 +7,8 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
+import java.io.IOException;
+
 public class MediaPlayerService extends Service {
 
     private MediaPlayer mediaPlayer;
@@ -34,17 +36,26 @@ public class MediaPlayerService extends Service {
 
     private void startMusic() {
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.melodie);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    if (isRepeating) {
-                        // Repornim melodia când s-a terminat doar dacă este în modul de repetare
-                        mediaPlayer.start();
+
+            String firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm.appspot.com/o/melodie.mp3?alt=media&token=fc458882-c9bc-4902-a264-4f70bc5e5a73";
+            String accessToken = "fc458882-c9bc-4902-a264-4f70bc5e5a73";
+
+            try {
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(firebaseStorageUrl);
+                mediaPlayer.prepare();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        if (isRepeating) {
+                            mediaPlayer.start();
+                        }
                     }
-                }
-            });
-            mediaPlayer.start();
+                });
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
