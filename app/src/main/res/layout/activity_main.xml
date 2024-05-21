@@ -10,13 +10,48 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/RingtoneView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Choose ringtone"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/btnMelodie1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pan Jabi"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnMelodie2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vivaldi"
+        android:layout_below="@id/btnMelodie1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnMelodie3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AC/DC"
+        android:layout_below="@id/btnMelodie2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
         android:id="@+id/clockTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="Clock"/>
+        android:layout_marginTop="20dp"
+        android:text="Choose hour"
+        android:textSize="24sp" />
 
     <TimePicker
         android:id="@+id/timePicker"
@@ -29,8 +64,8 @@
 
     <Button
         android:id="@+id/btnNotifications"
-        android:text="Set Alarm"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Set Alarm" />
 
 </LinearLayout>

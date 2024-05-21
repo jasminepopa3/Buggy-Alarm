@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     boolean notificationSet = false;
     private MediaPlayer mediaPlayer;
 
+    final String[] melodie_selectata = new String[1];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,17 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
             }
         }
+        // Găsim butonul pentru oprirea melodiei în layout
+        Button btnMelodie1 = findViewById(R.id.btnMelodie1);
+        Button btnMelodie2 = findViewById(R.id.btnMelodie2);
+        Button btnMelodie3 = findViewById(R.id.btnMelodie3);
+
+        // Adăugăm ascultători pentru clicurile pe butoanele de melodie
+        btnMelodie1.setOnClickListener(v -> melodie_selectata[0] ="Pan Jabi");
+
+        btnMelodie2.setOnClickListener(v -> melodie_selectata[0] ="Vivaldi");
+
+        btnMelodie3.setOnClickListener(v -> melodie_selectata[0] ="AC/DC");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Trimitem comanda către MediaPlayerService pentru a porni redarea melodiei
         Intent musicIntent = new Intent(this, MediaPlayerService.class);
-        musicIntent.setAction("PLAY");
+        musicIntent.setAction("PLAY MELODIE");
+        musicIntent.putExtra("melodie", melodie_selectata[0]); // Înlocuiește "numele_melodiei" cu numele efectiv al melodiei pe care dorești să o redai
         startService(musicIntent);
 
         // Afișează notificarea
