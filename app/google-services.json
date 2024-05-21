@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "553056002694",
+    "firebase_url": "https://buggy-alarm-default-rtdb.firebaseio.com",
+    "project_id": "buggy-alarm",
+    "storage_bucket": "buggy-alarm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553056002694:android:a320b99b82c2c26724a707",
+        "android_client_info": {
+          "package_name": "com.example.buggy_alarm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvP-yahW-IqD5pkX5uyyIkWRBK1yvwFv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553056002694:android:3252fefaaad20ed524a707",
+        "android_client_info": {
+          "package_name": "com.example.buggyalarm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvP-yahW-IqD5pkX5uyyIkWRBK1yvwFv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
