@@ -26,6 +26,10 @@
             </intent-filter>
         </activity>
 <!--        <receiver android:name=".Notificari2"/>-->
+        <activity android:name=".QuizActivity">
+        </activity>
+        <activity android:name=".StopAlarmActivity" />
+        <service android:name=".MediaPlayerService" />
         <service android:name=".MediaPlayerService" />
     </application>
 
