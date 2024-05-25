@@ -25,12 +25,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <receiver android:name=".Notificari2"/>-->
+        <activity android:name=".LoginActivity">
+            <!-- Nu includeți intent-filter pentru această activitate -->
+        </activity>
+
+        <!--        <receiver android:name=".Notificari2"/>-->
         <activity android:name=".QuizActivity">
         </activity>
         <activity android:name=".StopAlarmActivity" />
         <service android:name=".MediaPlayerService" />
         <service android:name=".MediaPlayerService" />
+        <service
+            android:name=".AlarmCheckService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>
