@@ -5,4 +5,10 @@
     <color name="lavender">#8692f7</color>
     <color name="purple">#672099</color>
     <color name="darkpurple">#2b153b</color>
+    <color name="background_color">#dbebe8</color>
+    <color name="red_button">#ef8062</color>
+    <color name="grey_color"> #838d8c</color>
+
+
+
 </resources>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/RingtoneView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Choose ringtone"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/btnMelodie1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pan Jabi"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnMelodie2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vivaldi"
+        android:layout_below="@id/btnMelodie1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnMelodie3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AC/DC"
+        android:layout_below="@id/btnMelodie2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/clockTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Choose hour"
+        android:textSize="24sp" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/clockTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:timePickerMode="spinner" />
+
+    <Button
+        android:id="@+id/btnNotifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Alarm" />
+
+</LinearLayout>
