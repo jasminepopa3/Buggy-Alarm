@@ -41,11 +41,11 @@ public class MediaPlayerService extends Service {
             String firebaseStorageUrl = new String();
 
             if (melodie.equals("Pan Jabi")) {
-                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm.appspot.com/o/melodie.mp3?alt=media&token=fc458882-c9bc-4902-a264-4f70bc5e5a73";
+                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm---db2.appspot.com/o/Panjabi.mp3?alt=media&token=4ba31dc2-3688-41f3-84d9-dc81d7d461d2";
             } else if (melodie.equals("Vivaldi")) {
-                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm.appspot.com/o/melodie2.mp3?alt=media&token=d0a624f3-032f-468b-9d51-48213009a150";
+                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm---db2.appspot.com/o/Vivaldi.mp3?alt=media&token=d18a6582-2118-44fc-8212-5865312dc1b4";
             } else if (melodie.equals("AC/DC")) {
-                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm.appspot.com/o/melodie3.mp3?alt=media&token=e30ac9a9-2c0b-4058-9714-98f7953794f7";
+                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm---db2.appspot.com/o/ACDC.mp3?alt=media&token=9812309d-4edd-4146-a032-074a479ed83e";
             }
 
             try {

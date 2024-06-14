@@ -87,6 +87,11 @@ public class QuizActivity extends AppCompatActivity {
                 // Shuffle the question list
                 Collections.shuffle(questionList);
 
+                // Select only the first 3 questions if there are more than 3
+                if (questionList.size() > 3) {
+                    questionList = questionList.subList(0, 3);
+                }
+
                 // Display the first question if the list is not empty
                 if (!questionList.isEmpty()) {
                     displayQuestion();
@@ -113,12 +118,12 @@ public class QuizActivity extends AppCompatActivity {
                 optionButtons[i].setText(options.get(i));
             }
             answered = false;
-            updateProgress(); // Adăugăm actualizarea progresului aici
+            updateProgress(); // Update the progress bar
         } else {
             // Handle the case where there are no more questions
             Toast.makeText(this, "Ai terminat toate întrebările.", Toast.LENGTH_SHORT).show();
             nextButton.setEnabled(false);
-            goToEndActivity(); // Redirecționează la EndActivity
+            goToEndActivity(); // Redirect to EndActivity
         }
     }
 
@@ -126,7 +131,6 @@ public class QuizActivity extends AppCompatActivity {
         int progress = (int) ((currentQuestionIndex + 1) / (float) questionList.size() * 100);
         questionProgressIndicator.setProgressCompat(progress, true);
     }
-
 
     public void onOptionSelected(View view) {
         if (currentQuestionIndex < questionList.size()) {
@@ -136,16 +140,9 @@ public class QuizActivity extends AppCompatActivity {
                     .get(questionList.get(currentQuestionIndex).getCorrectOptionIndex());
 
             if (selectedOption.equals(correctOption)) {
-                // Răspuns corect
-                //Toast.makeText(this, "Răspuns corect!", Toast.LENGTH_SHORT).show();
+                // Correct answer
                 totalCorrectAnswers++;
             }
-            /*
-            else {
-                // Răspuns greșit
-                Toast.makeText(this, "Răspuns greșit!", Toast.LENGTH_SHORT).show();
-            }
-            */
 
             answered = true;
         }
@@ -159,7 +156,7 @@ public class QuizActivity extends AppCompatActivity {
             // Handle the case where there are no more questions
             Toast.makeText(this, "Ai terminat toate întrebările.", Toast.LENGTH_SHORT).show();
             nextButton.setEnabled(false);
-            goToEndActivity(); // Redirecționează la EndActivity
+            goToEndActivity(); // Redirect to EndActivity
         }
     }
 
@@ -167,157 +164,6 @@ public class QuizActivity extends AppCompatActivity {
         Intent intent = new Intent(QuizActivity.this, StopAlarmActivity.class);
         intent.putExtra("TOTAL_CORRECT_ANSWERS", totalCorrectAnswers);
         startActivity(intent);
-        finish(); // Oprește activitatea curentă
+        finish(); // Stop the current activity
     }
 }
-
-
-/*
-public class QuizActivity extends AppCompatActivity {
-
-
-    private DatabaseReference databaseReference;
-    private List<Question> questionList;
-    private TextView questionTextView;
-    private Button[] optionButtons;
-    private int currentQuestionIndex = 0;
-    private LinearProgressIndicator progressIndicator;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
-
-        // Initialize Firebase Database
-        databaseReference = FirebaseDatabase.getInstance().getReference("questions");
-
-        // Initialize UI elements
-        questionTextView = findViewById(R.id.question_textview);
-        optionButtons = new Button[]{
-                findViewById(R.id.btn0),
-                findViewById(R.id.btn1),
-                findViewById(R.id.btn2),
-                findViewById(R.id.btn3)
-        };
-        progressIndicator = findViewById(R.id.question_progress_indicator); // Inițializează progressIndicator
-
-        // Load questions from Firebase
-        loadQuestions();
-    }
-
-    private void loadQuestions() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                questionList = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Question question = snapshot.getValue(Question.class);
-                    questionList.add(question);
-                }
-
-                // Shuffle the question list
-                Collections.shuffle(questionList);
-
-                // Display the first question
-                displayQuestion();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-            }
-        });
-    }
-
-    private void displayQuestion() {
-        if (currentQuestionIndex < questionList.size()) {
-            Question question = questionList.get(currentQuestionIndex);
-            questionTextView.setText(question.getQuestionText());
-            List<String> options = question.getOptions();
-            for (int i = 0; i < optionButtons.length; i++) {
-                optionButtons[i].setText(options.get(i));
-            }
-            updateProgress();
-        }
-    }
-
-    private void updateProgress() {
-        int progress = (int) ((currentQuestionIndex + 1) / (float) questionList.size() * 100);
-        progressIndicator.setProgress(progress);
-    }
-
-    public void onOptionSelected(View view) {
-        Button selectedButton = (Button) view;
-        String selectedOption = selectedButton.getText().toString();
-        String correctOption = questionList.get(currentQuestionIndex).getOptions()
-                .get(questionList.get(currentQuestionIndex).getCorrectOptionIndex());
-
-        if (selectedOption.equals(correctOption)) {
-            // Răspuns corect
-            Toast.makeText(this, "Răspuns corect!", Toast.LENGTH_SHORT).show();
-        } else {
-            // Răspuns greșit
-            Toast.makeText(this, "Răspuns greșit!", Toast.LENGTH_SHORT).show();
-        }
-
-        // Treci la următoarea întrebare
-        nextQuestion();
-    }
-
-    public void onNextButtonClicked(View view) {
-        nextQuestion();
-    }
-
-    private void nextQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questionList.size()) {
-            displayQuestion();
-        } else {
-            // Handle the case where there are no more questions
-            Toast.makeText(this, "Ai terminat toate întrebările.", Toast.LENGTH_SHORT).show();
-            goToEndActivity(); // Redirecționează la EndActivity
-        }
-    }
-
-    private void goToEndActivity() {
-        Intent intent = new Intent(QuizActivity.this, StopAlarmActivity.class);
-        startActivity(intent);
-        finish(); // Oprește activitatea curentă
-    }
-}
-*/
-
-
-
-
-/*
-public class QuizActivity extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
-
-        // Găsește butonul pentru oprirea melodiei în layout
-        Button stopMusicButton = findViewById(R.id.stopMusicButton);
-
-        // Adaugă un ascultător pentru evenimentul de clic al butonului
-        stopMusicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopMusic();
-            }
-        });
-    }
-
-    private void stopMusic() {
-        // Trimitem o comandă către MediaPlayerService pentru a opri redarea melodie
-        Intent intent = new Intent(this, MediaPlayerService.class);
-        intent.setAction("STOP");
-        startService(intent);
-    }
-
-
-
-}
-*/
