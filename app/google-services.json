@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "542016769958",
+    "project_id": "buggy-alarm---db2",
+    "storage_bucket": "buggy-alarm---db2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542016769958:android:519c3dc222e308aedcc967",
+        "android_client_info": {
+          "package_name": "com.example.buggyalarm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfFY49gjpWvDX22EGjlTmtf0oCAuAC-LU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
