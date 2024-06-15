@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Buggy Alarm</string>
+    <string name="alarm_set_message">Alarm set in %1$d hours and %2$d minutes</string>
 </resources>

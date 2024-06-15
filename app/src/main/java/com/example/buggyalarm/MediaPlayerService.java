@@ -7,6 +7,8 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
+import java.io.IOException;
+
 public class MediaPlayerService extends Service {
 
     private MediaPlayer mediaPlayer;
@@ -16,8 +18,9 @@ public class MediaPlayerService extends Service {
         String action = intent.getAction();
         if (action != null) {
             switch (action) {
-                case "PLAY":
-                    startMusic();
+                case "PLAY MELODIE":
+                    String melodie = intent.getStringExtra("melodie");
+                    startMusic(melodie);
                     break;
                 case "STOP":
                     stopMusic();
@@ -32,19 +35,35 @@ public class MediaPlayerService extends Service {
 
     private boolean isRepeating = false;
 
-    private void startMusic() {
+    private void startMusic(String melodie) {
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.melodie);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    if (isRepeating) {
-                        // Repornim melodia când s-a terminat doar dacă este în modul de repetare
-                        mediaPlayer.start();
+
+            String firebaseStorageUrl = new String();
+
+            if (melodie.equals("Pan Jabi")) {
+                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm---db2.appspot.com/o/Panjabi.mp3?alt=media&token=4ba31dc2-3688-41f3-84d9-dc81d7d461d2";
+            } else if (melodie.equals("Vivaldi")) {
+                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm---db2.appspot.com/o/Vivaldi.mp3?alt=media&token=d18a6582-2118-44fc-8212-5865312dc1b4";
+            } else if (melodie.equals("AC/DC")) {
+                firebaseStorageUrl = "https://firebasestorage.googleapis.com/v0/b/buggy-alarm---db2.appspot.com/o/ACDC.mp3?alt=media&token=9812309d-4edd-4146-a032-074a479ed83e";
+            }
+
+            try {
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(firebaseStorageUrl);
+                mediaPlayer.prepare();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        if (isRepeating) {
+                            mediaPlayer.start();
+                        }
                     }
-                }
-            });
-            mediaPlayer.start();
+                });
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
