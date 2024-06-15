@@ -11,6 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -45,32 +50,45 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     public class AlarmViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtTime;
-        private TextView txtAmPm; // Define txtAmPm TextView
+        private TextView txtAmPm;
         private TextView txtWeek;
         private Switch switchAlarm;
 
         public AlarmViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTime = itemView.findViewById(R.id.txtTime);
-            txtAmPm = itemView.findViewById(R.id.txtAmPm); // Initialize txtAmPm
+            txtAmPm = itemView.findViewById(R.id.txtAmPm);
             txtWeek = itemView.findViewById(R.id.txtWeek);
             switchAlarm = itemView.findViewById(R.id.switch1);
-        }
 
-        public void bind(Alarm alarm) {
-            // Bind data to views
-            txtTime.setText(String.format(Locale.getDefault(), "%02d:%02d", alarm.getHour(), alarm.getMinute()));
-            txtAmPm.setText(alarm.getPeriod().toLowerCase()); // Set text for txtAmPm
-            txtWeek.setText(alarm.getRepeatingDays());
-            switchAlarm.setChecked(alarm.isEnabled());
-
-            // Set click listener for switch or other actions if needed
             switchAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // Handle switch state change if needed
+                    // Avoid triggering listener when setting initial state
+                    if (buttonView.isPressed()) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            Alarm alarm = alarmList.get(position);
+                            alarm.setEnabled(isChecked);
+
+                            // Update Firebase with the new state
+                            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                            if (currentUser != null) {
+                                DatabaseReference alarmRef = FirebaseDatabase.getInstance().getReference()
+                                        .child("user_alarms").child(currentUser.getUid()).child(alarm.getId());
+                                alarmRef.child("enabled").setValue(isChecked);
+                            }
+                        }
+                    }
                 }
             });
+        }
+
+        public void bind(Alarm alarm) {
+            txtTime.setText(String.format(Locale.getDefault(), "%02d:%02d", alarm.getHour(), alarm.getMinute()));
+            txtAmPm.setText(alarm.getPeriod().toLowerCase());
+            txtWeek.setText(alarm.getRepeatingDays());
+            switchAlarm.setChecked(alarm.isEnabled());
         }
     }
 }

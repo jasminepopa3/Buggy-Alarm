@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".LoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Titlu aplicație -->
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_extralight"
+                android:text="Buggy Alarm"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <!-- Imagine copertă -->
+            <ImageView
+                android:id="@+id/logoImageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/cover_image" />
+
+            <!-- Mesaj de bun venit -->
+
+            <!-- Câmp de email -->
+            <TextView
+                android:id="@+id/welcomeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="166dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="sans-serif-black"
+                android:text="\nWelcome! \n\n Log in if you have an account or sign up to get started."
+                android:textAlignment="center"
+                android:textColor="@color/grey_color"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/emailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Câmp de parolă -->
+            <EditText
+                android:id="@+id/passwordField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Buton de login -->
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#ED7F63"
+                android:text="Login" />
+
+            <!-- Buton de înregistrare -->
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#EC7F63"
+                android:text="Register" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

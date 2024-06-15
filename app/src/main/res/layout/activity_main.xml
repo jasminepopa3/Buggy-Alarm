@@ -1,24 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/alarm_recycler_view"
+    <TextView
+        android:id="@+id/noAlarmsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="32dp"
+        android:text="You don't have any alarms set yet!"
+        android:textAlignment="center"
+        android:textSize="28sp"
+        android:textColor="@color/grey_color"
+        android:visibility="gone" />
+
+    <!-- Linear Layout pentru conținutul principal -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@drawable/divider_line"
-        android:dividerHeight="1dp"
-        android:clipToPadding="false" />
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Titlu aplicație -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppins_extralight"
+            android:text="Buggy Alarm"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <!-- Imagine copertă -->
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/cover_image"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="16dp" />
+
+        <!-- RecyclerView pentru alarme -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/alarm_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:overScrollMode="never"
+            android:layout_marginBottom="30dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-    <Button
-        android:id="@+id/create_alarm_button"
+
+    </LinearLayout>
+
+    <!-- Bottom App Bar -->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Alarm" />
+        android:layout_gravity="bottom"
+        android:backgroundTint="#68a1bf"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="50dp"
+        app:layout_behavior="com.google.android.material.bottomappbar.BottomAppBar$Behavior">
 
-</LinearLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_create_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_add_24"
+        app:tint="@android:color/white"
+        android:backgroundTint="@color/red_button"
+        app:layout_anchor="@id/bottomAppBar"
+        app:maxImageSize="40dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="24dp"/> <!-- Margin suficient pentru a nu se suprapune cu BottomAppBar -->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

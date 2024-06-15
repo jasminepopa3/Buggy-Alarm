@@ -7,26 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-/*
-public class StopAlarmActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stopalarm);
-
-        Button stopAlarmButton = findViewById(R.id.stop_alarm_button);
-        stopAlarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Adaugă logica pentru oprirea alarmei aici
-                finish(); // Închide activitatea
-            }
-        });
-    }
-}
-*/
 public class StopAlarmActivity extends Activity {
 
     @Override
@@ -53,11 +33,13 @@ public class StopAlarmActivity extends Activity {
 
     private void stopMusic() {
         // Trimitem o comandă către MediaPlayerService pentru a opri redarea melodie
-        Intent intent = new Intent(this, MediaPlayerService.class);
-        intent.setAction("STOP");
-        startService(intent);
+        Intent stopIntent = new Intent(this, MediaPlayerService.class);
+        stopIntent.setAction("STOP");
+        startService(stopIntent);
+
+        // Redirecționăm utilizatorul către MainActivity
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
+        finish(); // Închide activitatea curentă
     }
-
-
-
 }

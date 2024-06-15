@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">Buggy Alarm</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="alarm_set_message">Alarm set in %1$d hours and %2$d minutes</string>
 </resources>

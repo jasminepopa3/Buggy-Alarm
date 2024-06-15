@@ -67,7 +67,7 @@ public class QuizActivity extends AppCompatActivity {
             if (answered) {
                 nextQuestion();
             } else {
-                Toast.makeText(this, "Trebuie să selectezi un răspuns.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You must select an answer.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -96,14 +96,14 @@ public class QuizActivity extends AppCompatActivity {
                 if (!questionList.isEmpty()) {
                     displayQuestion();
                 } else {
-                    Toast.makeText(QuizActivity.this, "Nu există întrebări disponibile.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuizActivity.this, "No questions available.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
-                Toast.makeText(QuizActivity.this, "Eroare la încărcarea întrebărilor.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuizActivity.this, "Error loading questions.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -112,7 +112,7 @@ public class QuizActivity extends AppCompatActivity {
         if (currentQuestionIndex < questionList.size()) {
             Question question = questionList.get(currentQuestionIndex);
             questionTextView.setText(question.getQuestionText());
-            questionIndicatorTextView.setText("Întrebarea " + (currentQuestionIndex + 1) + "/" + questionList.size());
+            questionIndicatorTextView.setText("Question " + (currentQuestionIndex + 1) + "/" + questionList.size());
             List<String> options = question.getOptions();
             for (int i = 0; i < optionButtons.length; i++) {
                 optionButtons[i].setText(options.get(i));
@@ -121,7 +121,7 @@ public class QuizActivity extends AppCompatActivity {
             updateProgress(); // Update the progress bar
         } else {
             // Handle the case where there are no more questions
-            Toast.makeText(this, "Ai terminat toate întrebările.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You have completed all questions.", Toast.LENGTH_SHORT).show();
             nextButton.setEnabled(false);
             goToEndActivity(); // Redirect to EndActivity
         }
@@ -154,7 +154,7 @@ public class QuizActivity extends AppCompatActivity {
             displayQuestion();
         } else {
             // Handle the case where there are no more questions
-            Toast.makeText(this, "Ai terminat toate întrebările.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You have completed all questions.", Toast.LENGTH_SHORT).show();
             nextButton.setEnabled(false);
             goToEndActivity(); // Redirect to EndActivity
         }

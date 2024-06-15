@@ -166,7 +166,10 @@ public class Alarm {
 
         return builder.toString();
     }
-
+    public long getTime() {
+        long timeInMillis = hour * 3600000 + minute * 60000; // Convert hours and minutes to milliseconds
+        return timeInMillis;
+    }
     public boolean isEnabled() {
         return isEnabled;
     }
