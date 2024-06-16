@@ -1,7 +1,7 @@
 package com.example.buggyalarm;
 
 public class Alarm {
-    private String id; // ID-ul unic al alarmei
+    private String id; // ID-ul unic al alarmei noastre
     private int hour;
     private int minute;
     private String melody;
