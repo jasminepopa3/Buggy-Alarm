@@ -42,6 +42,11 @@ public class QuizActivity extends AppCompatActivity {
     private String bugs;
     private String language;
     private String level;
+    private long startTime;
+    private List<Long> timePerQuestion;
+    private Handler timerHandler;
+    private Runnable timerRunnable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,8 @@ public class QuizActivity extends AppCompatActivity {
         level = getIntent().getStringExtra("level");
 
         incorrectQuestions = new ArrayList<>();
+        timePerQuestion = new ArrayList<>();
+        timerHandler = new Handler();
 
         // Load questions from Firebase
         loadQuestions();
@@ -128,6 +135,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private void displayQuestion() {
         if (currentQuestionIndex < questionList.size()) {
+            startTime = System.currentTimeMillis();
             Question question = questionList.get(currentQuestionIndex);
             questionTextView.setText(question.getQuestionText());
             questionIndicatorTextView.setText("Question " + (currentQuestionIndex + 1) + "/" + questionList.size());
@@ -170,6 +178,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void nextQuestion() {
+        stopTimer();
         currentQuestionIndex++;
         if (currentQuestionIndex < questionList.size()) {
             displayQuestion();
@@ -181,10 +190,26 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    private void stopTimer() {
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        timePerQuestion.add(elapsedTime);
+    }
+
+    private double calculateAverageTime() {
+        long totalTime = 0;
+        for (long time : timePerQuestion) {
+            totalTime += time;
+        }
+        return (totalTime / (double) timePerQuestion.size()) / 1000.0; // Convert milliseconds to seconds
+    }
+
+
     private void goToEndActivity() {
         if (totalCorrectAnswers == questionList.size()) {
             Intent intent = new Intent(QuizActivity.this, StopAlarmActivity.class);
             intent.putExtra("TOTAL_CORRECT_ANSWERS", totalCorrectAnswers);
+            intent.putExtra("AVERAGE_TIME", calculateAverageTime());
             startActivity(intent);
             finish(); // Stop the current activity
         } else {

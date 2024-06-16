@@ -17,6 +17,17 @@
         android:textAlignment="center"
         android:textSize="35sp" />
 
+    <TextView
+        android:id="@+id/average_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="70dp"
+        android:text="Average time:"
+        android:textAlignment="center"
+        android:textSize="35sp" />
+
+
     <Button
         android:id="@+id/stop_alarm_button"
         android:layout_width="wrap_content"

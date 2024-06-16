@@ -15,12 +15,15 @@ public class StopAlarmActivity extends Activity {
         setContentView(R.layout.activity_stopalarm);
 
         TextView totalCorrectAnswersTextView = findViewById(R.id.total_correct_answers_textview);
+        TextView averageTimeTextView = findViewById(R.id.average_time_textview);
 
         // Găsește butonul pentru oprirea melodiei în layout
         Button stopMusicButton = findViewById(R.id.stop_alarm_button);
         int totalCorrectAnswers = getIntent().getIntExtra("TOTAL_CORRECT_ANSWERS", 0);
+        double averageTime = getIntent().getDoubleExtra("AVERAGE_TIME", 0);
 
         totalCorrectAnswersTextView.setText("Number of correct answers: " + totalCorrectAnswers);
+        averageTimeTextView.setText("Average Time per Question: " + String.format("%.2f", averageTime) + " seconds");
 
         // Adaugă un ascultător pentru evenimentul de clic al butonului
         stopMusicButton.setOnClickListener(new View.OnClickListener() {
