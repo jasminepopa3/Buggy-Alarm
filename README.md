@@ -3,9 +3,16 @@
 ## Android Studio Project - An alarm that helps you test your programming knowledge
 
 👩🏻‍💻 **Team Members:**
-- Lungu Laura-Vanesa, group 241
-- Negoiță-Crețu Raluca-Marina, group 241
-- Popa Jasmine-Mihaela, group 241
+- [Lungu Laura-Vanesa, UB](https://github.com/LVanesa)
+- [Negoiță-Crețu Raluca-Marina, UB](https://github.com/ncraluca)
+- [Popa Jasmine-Mihaela, group, UB](https://github.com/jasminepopa3)
+
+<div style="display: flex; justify-content: space-between;">
+    <img src="buggy3.jpg" alt="Bug 3" height="400" style="width: 23%;">
+    <img src="buggy4.jpg" alt="Bug 4" height="400" style="width: 23%;">
+    <img src="buggy2.jpg" alt="Bug 2" height="400" style="width: 23%;">
+    <img src="buggy1.jpg" alt="Bug 1" height="400" style="width: 23%;">
+</div>
 
 ---
 
