@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             public void onLongClick(int position) {
                 selectedAlarm = alarmList.get(position);
                 btnDeleteAlarm.setVisibility(View.VISIBLE);
-                fabCreateAlarm.setVisibility(View.GONE);
+                //fabCreateAlarm.setVisibility(View.GONE);
             }
         });
         // Set click listener for the Delete button
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     deleteAlarm(selectedAlarm);
                     selectedAlarm = null;
                     btnDeleteAlarm.setVisibility(View.GONE);
-                    fabCreateAlarm.setVisibility(View.VISIBLE);
+                    //fabCreateAlarm.setVisibility(View.VISIBLE);
                 }
             }
         });

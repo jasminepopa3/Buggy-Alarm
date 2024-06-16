@@ -77,19 +77,15 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <!-- Floating Action Button pentru ștergere alarmă -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/btn_delete_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_remove_24"
-        app:tint="@android:color/white"
-        android:backgroundTint="@color/red_button"
-        app:layout_anchor="@id/bottomAppBar"
-        app:maxImageSize="40dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="24dp"
-        android:visibility="gone" />
+        android:text="Delete"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
 
 
     <!-- Floating Action Button -->
