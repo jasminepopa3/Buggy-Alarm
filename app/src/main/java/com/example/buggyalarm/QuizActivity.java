@@ -196,7 +196,7 @@ public class QuizActivity extends AppCompatActivity {
             displayQuestion();
         } else {
             // Handle the case where there are no more questions
-            Toast.makeText(this, "You have completed all questions.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "You have completed all questions.", Toast.LENGTH_SHORT).show();
             nextButton.setEnabled(false);
             goToEndActivity(); // Redirect to EndActivity
         }
