@@ -1,8 +1,11 @@
 package com.example.buggyalarm;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +30,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
     private List<Question> questionList;
+    private List<Question> incorrectQuestions;
     private TextView questionTextView;
     private TextView questionIndicatorTextView;
     private Button[] optionButtons;
@@ -63,6 +67,8 @@ public class QuizActivity extends AppCompatActivity {
         bugs = getIntent().getStringExtra("bugs");
         language = getIntent().getStringExtra("language");
         level = getIntent().getStringExtra("level");
+
+        incorrectQuestions = new ArrayList<>();
 
         // Load questions from Firebase
         loadQuestions();
@@ -133,7 +139,7 @@ public class QuizActivity extends AppCompatActivity {
             updateProgress(); // Update the progress bar
         } else {
             // Handle the case where there are no more questions
-            Toast.makeText(this, "You have completed all questions.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "You have completed all questions.", Toast.LENGTH_SHORT).show();
             nextButton.setEnabled(false);
             goToEndActivity(); // Redirect to EndActivity
         }
@@ -154,6 +160,9 @@ public class QuizActivity extends AppCompatActivity {
             if (selectedOption.equals(correctOption)) {
                 // Correct answer
                 totalCorrectAnswers++;
+            }else{
+                //Add the incorrect questions to the new list
+                incorrectQuestions.add(questionList.get(currentQuestionIndex));
             }
 
             answered = true;
@@ -173,9 +182,39 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void goToEndActivity() {
-        Intent intent = new Intent(QuizActivity.this, StopAlarmActivity.class);
-        intent.putExtra("TOTAL_CORRECT_ANSWERS", totalCorrectAnswers);
-        startActivity(intent);
-        finish(); // Stop the current activity
+        if (totalCorrectAnswers == questionList.size()) {
+            Intent intent = new Intent(QuizActivity.this, StopAlarmActivity.class);
+            intent.putExtra("TOTAL_CORRECT_ANSWERS", totalCorrectAnswers);
+            startActivity(intent);
+            finish(); // Stop the current activity
+        } else {
+
+            // If there are incorrect questions, restart the quiz with those questions
+            showRetryDialog();
+        }
+    }
+
+    private void showRetryDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_retry);
+        dialog.setCancelable(false);
+
+        // Set the dialog to be full-screen
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.show();
+
+        new Handler().postDelayed(() -> {
+            dialog.dismiss();
+
+            // If there are incorrect questions, restart the quiz with those questions
+            questionList = new ArrayList<>(incorrectQuestions);
+            incorrectQuestions.clear();
+            currentQuestionIndex = 0;
+            totalCorrectAnswers = 0;
+
+            // Handle the case where there are incorrect answers
+            nextButton.setEnabled(true);
+            displayQuestion();
+        }, 3000); // Display the dialog for 3 seconds
     }
 }
