@@ -135,6 +135,8 @@ public class CreateAlarmActivity extends AppCompatActivity {
     }
 
     // Metodă pentru afișarea meniului de selectare a tonului de apel
+    //Tb adaugat validator la selectia melodiei - exista posibilitatea sa nu selectezi si sa nu te
+    // lase sa mergi mai departe
     public void showRingtoneMenu(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select Ringtone");

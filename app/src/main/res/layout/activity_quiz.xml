@@ -22,6 +22,7 @@
                 tools:text="Question 7/20"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 android:layout_centerVertical="true"
                 android:id="@+id/question_indicator_textview"/>
 
