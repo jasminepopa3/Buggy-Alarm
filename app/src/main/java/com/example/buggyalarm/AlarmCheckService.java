@@ -1,5 +1,7 @@
 package com.example.buggyalarm;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -147,13 +149,21 @@ public class AlarmCheckService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("data", "It's bug o'clock!");
 
         // Adăugăm un extra în Intent pentru a indica că trebuie să pornim serviciul MediaPlayerService
         intent.putExtra("playMusic", true);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
+        // Transmiterea atributelor
+        intent.putExtra("bugs", alarm.getBugs());
+        intent.putExtra("language", alarm.getLanguage());
+        intent.putExtra("level", alarm.getLevel());
+
+        int requestCode = (int) System.currentTimeMillis();
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), requestCode, intent, PendingIntent.FLAG_IMMUTABLE);
         builder.setContentIntent(pendingIntent);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

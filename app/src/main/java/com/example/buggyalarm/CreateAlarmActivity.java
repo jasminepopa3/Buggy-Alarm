@@ -32,7 +32,13 @@ public class CreateAlarmActivity extends AppCompatActivity {
     TimePicker timePicker;
     boolean notificationSet = false;
     final String[] melodie_selectata = new String[1];
+    final String[] no_of_bugs_selectat = new String[1];
+    final String[] programming_language = new String[1];
+    final String[] level_difficulty = new String[1];
     TextView txtSelectedRingtone;
+    TextView txtBugs;
+    TextView txtLanguage;
+    TextView txtLevel;
     MaterialButtonToggleGroup toggleGroup;
     private TextView txtAlarmNotification;
 
@@ -46,6 +52,9 @@ public class CreateAlarmActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         timePicker = findViewById(R.id.timePicker);
         txtSelectedRingtone = findViewById(R.id.txtRingtone);
+        txtBugs = findViewById(R.id.txtBugs);
+        txtLanguage = findViewById(R.id.txtLanguage);
+        txtLevel = findViewById(R.id.txtLevel);
         toggleGroup = findViewById(R.id.toggleGroup);
         txtAlarmNotification = findViewById(R.id.txtAlarmNotification);
 
@@ -71,6 +80,11 @@ public class CreateAlarmActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Împiedică continuarea salvării până când sunt selectate ambele opțiuni
+                if (melodie_selectata[0] == null || no_of_bugs_selectat[0] == null || programming_language[0] == null || level_difficulty[0] == null) {
+                    Toast.makeText(CreateAlarmActivity.this, "Please select ringtone, number of bugs, programming language and level difficulty.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 notificationSet = true;
                 int hour, minute;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -80,7 +94,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
                     hour = timePicker.getCurrentHour();
                     minute = timePicker.getCurrentMinute();
                 }
-                saveAlarmToFirebase(hour, minute, melodie_selectata[0]);
+                saveAlarmToFirebase(hour, minute, melodie_selectata[0], no_of_bugs_selectat[0], programming_language[0], level_difficulty[0]);
 
                 Toast.makeText(CreateAlarmActivity.this, "Alarm set", Toast.LENGTH_SHORT).show();
 
@@ -107,13 +121,13 @@ public class CreateAlarmActivity extends AppCompatActivity {
         startAlarmCheckService();
     }
 
-    private void saveAlarmToFirebase(int hour, int minute, String melody) {
+    private void saveAlarmToFirebase(int hour, int minute, String melody, String bugs, String language, String level) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             DatabaseReference userAlarmsRef = FirebaseDatabase.getInstance().getReference()
                     .child("user_alarms").child(currentUser.getUid());
             String alarmId = userAlarmsRef.push().getKey(); // Generare ID unic pentru alarmă
-            Alarm alarm = new Alarm(alarmId, hour, minute, melody);
+            Alarm alarm = new Alarm(alarmId, hour, minute, melody, bugs, language, level);
 
             // Set repeat days based on selected buttons
             alarm.setMon(toggleGroup.getCheckedButtonIds().contains(R.id.btnMon));
@@ -146,6 +160,87 @@ public class CreateAlarmActivity extends AppCompatActivity {
                 String[] ringtones = getResources().getStringArray(R.array.ringtones);
                 melodie_selectata[0] = ringtones[which];
                 txtSelectedRingtone.setText(melodie_selectata[0]);
+            }
+        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                // Verificare dacă a fost selectat ringtone-ul
+                if (melodie_selectata[0] == null) {
+                    Toast.makeText(CreateAlarmActivity.this, "Please select a ringtone", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    public void showBugsMenu(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Number of Bugs");
+
+        builder.setItems(R.array.bugs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] bugs = getResources().getStringArray(R.array.bugs);
+                no_of_bugs_selectat[0] = bugs[which];
+                txtBugs.setText("Number of bugs: " + no_of_bugs_selectat[0]);
+            }
+        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                // Verificare dacă a fost selectat numărul de bugs
+                if (no_of_bugs_selectat[0] == null) {
+                    Toast.makeText(CreateAlarmActivity.this, "Please select the number of bugs", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    public void showLanguageMenu(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Programming Language");
+
+        builder.setItems(R.array.language, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] language = getResources().getStringArray(R.array.language);
+                programming_language[0] = language[which];
+                txtLanguage.setText(programming_language[0]);
+            }
+        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                // Verificare dacă a fost selectat limbajul
+                if (programming_language[0] == null) {
+                    Toast.makeText(CreateAlarmActivity.this, "Please select the programming language", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    public void showLevelMenu(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Difficulty Level");
+
+        builder.setItems(R.array.level, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] level = getResources().getStringArray(R.array.level);
+                level_difficulty[0] = level[which];
+                txtLevel.setText("Difficulty Level: " + level_difficulty[0]);
+            }
+        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                // Verificare dacă a fost selectat numărul de bugs
+                if (level_difficulty[0] == null) {
+                    Toast.makeText(CreateAlarmActivity.this, "Please select the difficulty level", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         builder.show();

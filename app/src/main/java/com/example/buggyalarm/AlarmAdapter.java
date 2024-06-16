@@ -1,5 +1,6 @@
 package com.example.buggyalarm;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -93,10 +94,14 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
                     if (position != RecyclerView.NO_POSITION) {
                         Alarm alarm = alarmList.get(position);
                         Intent intent = new Intent(context, EditAlarmActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         intent.putExtra("alarmId", alarm.getId());
                         intent.putExtra("hour", alarm.getHour());
                         intent.putExtra("minute", alarm.getMinute());
                         intent.putExtra("melody", alarm.getMelody());
+                        intent.putExtra("bugs", alarm.getBugs());
+                        intent.putExtra("language", alarm.getLanguage());
+                        intent.putExtra("level", alarm.getLevel());
                         intent.putExtra("mon", alarm.isMon());
                         intent.putExtra("tue", alarm.isTue());
                         intent.putExtra("wed", alarm.isWed());
@@ -104,7 +109,18 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
                         intent.putExtra("fri", alarm.isFri());
                         intent.putExtra("sat", alarm.isSat());
                         intent.putExtra("sun", alarm.isSun());
-                        context.startActivity(intent);
+                        int requestCode = (int) System.currentTimeMillis();
+                        PendingIntent pendingIntent = PendingIntent.getActivity(
+                                context,
+                                requestCode, // Id-ul PendingIntent-ului (trebuie să fie unic pentru fiecare alarmă)
+                                intent,
+                                PendingIntent.FLAG_IMMUTABLE
+                        );
+                        try {
+                            pendingIntent.send();
+                        } catch (PendingIntent.CanceledException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             });

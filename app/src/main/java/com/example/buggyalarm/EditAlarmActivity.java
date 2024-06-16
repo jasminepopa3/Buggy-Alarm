@@ -21,10 +21,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class EditAlarmActivity extends AppCompatActivity {
 
-    Button btnSave, btnCancel, btnSelectRingtone;
+    Button btnSave, btnCancel, btnSelectRingtone, btnSelectBugs, btnSelectLanguage, btnSelectLevel;
     TimePicker timePicker;
     final String[] selectedMelody = new String[1];
+    final String[] no_of_bugs_selectat = new String[1];
+    final String[] programming_language = new String[1];
+    final String[] difficulty_level = new String[1];
     TextView txtSelectedRingtone;
+    TextView txtBugs;
+    TextView txtLanguage;
+    TextView txtLevel;
     MaterialButtonToggleGroup toggleGroup;
     private TextView txtAlarmNotification;
 
@@ -39,8 +45,14 @@ public class EditAlarmActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
         btnSelectRingtone = findViewById(R.id.btnSelectRingtone);
+        btnSelectBugs = findViewById(R.id.btnSelectBugs);
+        btnSelectLanguage = findViewById(R.id.btnSelectLanguage);
+        btnSelectLevel = findViewById(R.id.btnSelectLevel);
         timePicker = findViewById(R.id.timePicker);
         txtSelectedRingtone = findViewById(R.id.txtRingtone);
+        txtBugs = findViewById(R.id.txtBugs);
+        txtLanguage = findViewById(R.id.txtLanguage);
+        txtLevel = findViewById(R.id.txtLevel);
         toggleGroup = findViewById(R.id.toggleGroup);
         txtAlarmNotification = findViewById(R.id.txtAlarmNotification);
 
@@ -51,6 +63,9 @@ public class EditAlarmActivity extends AppCompatActivity {
             int hour = intent.getIntExtra("hour", 0);
             int minute = intent.getIntExtra("minute", 0);
             String melody = intent.getStringExtra("melody");
+            String bugs = intent.getStringExtra("bugs");
+            String language = intent.getStringExtra("language");
+            String level = intent.getStringExtra("level");
             boolean mon = intent.getBooleanExtra("mon", false);
             boolean tue = intent.getBooleanExtra("tue", false);
             boolean wed = intent.getBooleanExtra("wed", false);
@@ -71,6 +86,18 @@ public class EditAlarmActivity extends AppCompatActivity {
             // Set selected ringtone
             selectedMelody[0] = melody;
             txtSelectedRingtone.setText(selectedMelody[0]);
+
+            // Set selected no. of bugs
+            no_of_bugs_selectat[0] = bugs;
+            txtBugs.setText("Number of bugs: " + no_of_bugs_selectat[0]);
+
+            // Set selected programming language
+            programming_language[0] = language;
+            txtLanguage.setText(programming_language[0]);
+
+            // Set selected level
+            difficulty_level[0] = level;
+            txtLevel.setText("Difficulty level: " + difficulty_level[0]);
 
             // Set repeat days
             if (mon) toggleGroup.check(R.id.btnMon);
@@ -94,7 +121,7 @@ public class EditAlarmActivity extends AppCompatActivity {
                     hour = timePicker.getCurrentHour();
                     minute = timePicker.getCurrentMinute();
                 }
-                updateAlarmInFirebase(alarmId, hour, minute, selectedMelody[0]);
+                updateAlarmInFirebase(alarmId, hour, minute, selectedMelody[0],no_of_bugs_selectat[0],programming_language[0],difficulty_level[0]);
 
                 Toast.makeText(EditAlarmActivity.this, "Alarm updated", Toast.LENGTH_SHORT).show();
 
@@ -126,6 +153,26 @@ public class EditAlarmActivity extends AppCompatActivity {
             }
         });
 
+        btnSelectBugs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBugsMenu();
+            }
+        });
+
+        btnSelectLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLanguageMenu();
+            }
+        });
+
+        btnSelectLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLevelMenu();
+            }
+        });
         startAlarmCheckService();
     }
 
@@ -144,17 +191,64 @@ public class EditAlarmActivity extends AppCompatActivity {
         builder.show();
     }
 
+    // Metodă pentru afișarea meniului de selectare a nr de bug-uri
+    public void showBugsMenu() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Number of Bugs");
+        builder.setItems(R.array.bugs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] bugs = getResources().getStringArray(R.array.bugs);
+                no_of_bugs_selectat[0] = bugs[which];
+                txtBugs.setText("Number of bugs: " + no_of_bugs_selectat[0]);
+            }
+        });
+        builder.show();
+    }
+
+    // Metodă pentru afișarea meniului de selectare a limbajului
+    public void showLanguageMenu() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Programming Language");
+        builder.setItems(R.array.language, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] language = getResources().getStringArray(R.array.language);
+                programming_language[0] = language[which];
+                txtLanguage.setText(programming_language[0]);
+            }
+        });
+        builder.show();
+    }
+
+    // Metodă pentru afișarea meniului de selectare a nivelului de dificultate
+    public void showLevelMenu() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Difficulty Level");
+        builder.setItems(R.array.level, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] level = getResources().getStringArray(R.array.level);
+                difficulty_level[0] = level[which];
+                txtLevel.setText("Difficulty level: " + difficulty_level[0]);
+            }
+        });
+        builder.show();
+    }
+
+
+
     private void startAlarmCheckService() {
         Intent serviceIntent = new Intent(this, AlarmCheckService.class);
         startService(serviceIntent);
     }
 
-    private void updateAlarmInFirebase(String alarmId, int hour, int minute, String melody) {
+    private void updateAlarmInFirebase(String alarmId, int hour, int minute, String melody, String bugs, String language, String level) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             DatabaseReference userAlarmsRef = FirebaseDatabase.getInstance().getReference()
                     .child("user_alarms").child(currentUser.getUid()).child(alarmId);
-            Alarm alarm = new Alarm(alarmId, hour, minute, melody);
+            Alarm alarm = new Alarm(alarmId, hour, minute, melody, bugs, language, level);
 
             // Set repeat days based on selected buttons
             alarm.setMon(toggleGroup.getCheckedButtonIds().contains(R.id.btnMon));

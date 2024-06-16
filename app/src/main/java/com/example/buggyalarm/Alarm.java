@@ -5,6 +5,9 @@ public class Alarm {
     private int hour;
     private int minute;
     private String melody;
+    private String bugs;
+    private String language;
+    private String level;
     private boolean mon;
     private boolean tue;
     private boolean wed;
@@ -17,11 +20,14 @@ public class Alarm {
 
     public Alarm() {}
 
-    public Alarm(String id, int hour, int minute, String melody, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
+    public Alarm(String id, int hour, int minute, String melody, String bugs, String language, String level, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun) {
         this.id = id;
         this.hour = hour;
         this.minute = minute;
         this.melody = melody;
+        this.bugs = bugs;
+        this.language = language;
+        this.level = level;
         this.mon = mon;
         this.tue = tue;
         this.wed = wed;
@@ -31,11 +37,14 @@ public class Alarm {
         this.sun = sun;
     }
 
-    public Alarm(String id, int hour, int minute, String melody) {
+    public Alarm(String id, int hour, int minute, String melody, String bugs, String language, String level) {
         this.id = id;
         this.hour = hour;
         this.minute = minute;
         this.melody = melody;
+        this.bugs = bugs;
+        this.language = language;
+        this.level = level;
     }
 
     // Getters și Setters
@@ -70,6 +79,22 @@ public class Alarm {
     public void setMelody(String melody) {
         this.melody = melody;
     }
+
+    public String getBugs() {
+        return bugs;
+    }
+
+    public void setBugs(String bugs) {
+        this.bugs = bugs;
+    }
+
+    public String getLanguage() {return language;}
+
+    public void setLanguage(String language) {this.language = language;}
+
+    public String getLevel() {return level;}
+
+    public void setLevel(String level) {this.level = level;}
 
     public boolean isMon() {
         return mon;

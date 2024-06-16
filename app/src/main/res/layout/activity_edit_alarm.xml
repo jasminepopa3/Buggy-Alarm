@@ -14,7 +14,7 @@
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="268dp"
         android:background="@color/grey_color"
         app:layout_constraintEnd_toEndOf="@id/toggleGroup"
         app:layout_constraintHorizontal_bias="0.0"
@@ -38,7 +38,7 @@
         android:id="@+id/timePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="76dp"
         android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -144,7 +144,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/txtRingtone"
         app:layout_constraintEnd_toEndOf="@+id/toggleGroup"
         app:layout_constraintTop_toTopOf="@+id/txtRingtone"
-        app:layout_constraintVertical_bias="0.478" />
+        app:layout_constraintVertical_bias="0.391" />
 
     <TextView
         android:id="@+id/txtRingtone"
@@ -160,7 +160,100 @@
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!-- No. of bugs selection -->
+
+    <TextView
+        android:id="@+id/txtBugs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Number of bugs"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintVertical_bias="0.313" />
+
+    <Button
+        android:id="@+id/btnSelectBugs"
+        style="@style/Widget.App.Button.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showBugsMenu"
+        android:text="Select"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/txtBugs"
+        app:layout_constraintEnd_toEndOf="@+id/toggleGroup"
+        app:layout_constraintTop_toTopOf="@+id/txtBugs"
+        app:layout_constraintVertical_bias="0.478" />
+
+    <!-- Programming language selection -->
+
+    <TextView
+        android:id="@+id/txtLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Programming language"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintVertical_bias="0.602" />
+
+    <Button
+        android:id="@+id/btnSelectLanguage"
+        style="@style/Widget.App.Button.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showLanguageMenu"
+        android:text="Select"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/txtLanguage"
+        app:layout_constraintEnd_toEndOf="@+id/toggleGroup"
+        app:layout_constraintTop_toTopOf="@+id/txtLanguage"
+        app:layout_constraintVertical_bias="0.478" />
+
+    <!-- Level difficulty selection -->
+
+    <TextView
+        android:id="@+id/txtLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Difficulty level"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintVertical_bias="0.882" />
+
+    <Button
+        android:id="@+id/btnSelectLevel"
+        style="@style/Widget.App.Button.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showLevelMenu"
+        android:text="Select"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/txtLevel"
+        app:layout_constraintEnd_toEndOf="@+id/toggleGroup"
+        app:layout_constraintTop_toTopOf="@+id/txtLevel"
+        app:layout_constraintVertical_bias="0.478" />
 
     <!-- Cancel and Save buttons -->
     <Button
@@ -200,6 +293,7 @@
         android:id="@+id/txtRepeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="314dp"
         android:layout_marginBottom="320dp"
         android:fontFamily="sans-serif-medium"
@@ -209,6 +303,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnCancel"
         app:layout_constraintStart_toStartOf="@+id/toggleGroup"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

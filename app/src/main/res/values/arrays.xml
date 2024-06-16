@@ -5,4 +5,18 @@
         <item>Vivaldi</item>
         <item>AC/DC</item>
     </string-array>
+    <string-array name="bugs">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="language">
+        <item>C++</item>
+        <item>Java</item>
+        <item>Python</item>
+    </string-array>
+    <string-array name="level">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

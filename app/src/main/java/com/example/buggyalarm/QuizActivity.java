@@ -8,9 +8,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,9 @@ public class QuizActivity extends AppCompatActivity {
     private boolean answered = false;
     private LinearProgressIndicator questionProgressIndicator;
     private int totalCorrectAnswers = 0;
+    private String bugs;
+    private String language;
+    private String level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,11 @@ public class QuizActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.next_btn);
         questionProgressIndicator = findViewById(R.id.question_progress_indicator);
 
+        // Preia valorile atributelor din intent
+        bugs = getIntent().getStringExtra("bugs");
+        language = getIntent().getStringExtra("language");
+        level = getIntent().getStringExtra("level");
+
         // Load questions from Firebase
         loadQuestions();
 
@@ -73,7 +83,9 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void loadQuestions() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference mDbRef = mDatabase.getReference("questions/" + language + "/Level "+ level);
+        mDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 questionList = new ArrayList<>();
@@ -88,8 +100,8 @@ public class QuizActivity extends AppCompatActivity {
                 Collections.shuffle(questionList);
 
                 // Select only the first 3 questions if there are more than 3
-                if (questionList.size() > 3) {
-                    questionList = questionList.subList(0, 3);
+                if (questionList.size() > Integer.parseInt(bugs)) {
+                    questionList = questionList.subList(0, Integer.parseInt(bugs));
                 }
 
                 // Display the first question if the list is not empty

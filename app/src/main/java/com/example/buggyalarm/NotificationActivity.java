@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class NotificationActivity extends AppCompatActivity {
 
     TextView textView;
+    private String bugs;
+    private String language;
+    private String level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,9 @@ public class NotificationActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textViewData);
         String data = getIntent().getStringExtra("data");
+        bugs = getIntent().getStringExtra("bugs");
+        language = getIntent().getStringExtra("language");
+        level = getIntent().getStringExtra("level");
         textView.setText(data);
 
         // Găsim butonul pentru oprirea melodiei în layout
@@ -37,6 +43,13 @@ public class NotificationActivity extends AppCompatActivity {
     private void stopMusic() {
         // Trimitem o comandă către MediaPlayerService pentru a opri redarea melodie
         Intent intent = new Intent(this, QuizActivity.class);
+        // Trimitem bugs către QuizActivity
+        intent.putExtra("bugs", bugs);
+        intent.putExtra("language", language);
+        intent.putExtra("level", level);
+        // Adaugă flag pentru a începe o nouă activitate și a șterge activitățile vechi din stivă
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 }

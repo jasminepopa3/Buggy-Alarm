@@ -32,7 +32,7 @@
         </activity>
 
         <activity android:name=".LoginActivity">
-            <!-- Nu includeți intent-filter pentru această activitate -->
+            <!-- Nu putem include intent-filter pentru această activitate -->
         </activity>
 
         <activity
