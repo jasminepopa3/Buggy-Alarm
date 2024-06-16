@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             public void onLongClick(int position) {
                 selectedAlarm = alarmList.get(position);
                 btnDeleteAlarm.setVisibility(View.VISIBLE);
-                //fabCreateAlarm.setVisibility(View.GONE);
+                fabCreateAlarm.setVisibility(View.GONE);
             }
         });
         // Set click listener for the Delete button
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     deleteAlarm(selectedAlarm);
                     selectedAlarm = null;
                     btnDeleteAlarm.setVisibility(View.GONE);
-                    //fabCreateAlarm.setVisibility(View.VISIBLE);
+                    fabCreateAlarm.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -170,23 +170,17 @@ public class MainActivity extends AppCompatActivity {
     private void deleteAlarm(Alarm alarm) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            DatabaseReference alarmRef = FirebaseDatabase.getInstance().getReference()
-                    .child("user_alarms").child(currentUser.getUid()).child(alarm.getId());
-            alarmRef.removeValue().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // Remove alarm from the list
-                    alarmList.remove(alarm);
-                    alarmAdapter.notifyDataSetChanged();
-                    Toast.makeText(MainActivity.this, "Alarm deleted.", Toast.LENGTH_SHORT).show();
+            DatabaseReference userAlarmsRef = FirebaseDatabase.getInstance().getReference()
+                    .child("user_alarms").child(currentUser.getUid());
 
-                    // Check if there are no alarms and update the visibility of the TextView
-                    if (alarmList.isEmpty()) {
-                        noAlarmsTextView.setVisibility(View.VISIBLE);
+            userAlarmsRef.child(alarm.getId()).removeValue(new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    if (databaseError == null) {
+                        Toast.makeText(MainActivity.this, "Alarm deleted successfully.", Toast.LENGTH_SHORT).show();
                     } else {
-                        noAlarmsTextView.setVisibility(View.GONE);
+                        Toast.makeText(MainActivity.this, "Failed to delete alarm.", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(MainActivity.this, "Failed to delete alarm.", Toast.LENGTH_SHORT).show();
                 }
             });
         }

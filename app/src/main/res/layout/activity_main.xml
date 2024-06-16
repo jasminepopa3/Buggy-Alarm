@@ -77,28 +77,38 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <Button
-        android:id="@+id/btn_delete_alarm"
+    <!-- FrameLayout pentru a suprapune butoanele -->
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"/>
-
-
-    <!-- Floating Action Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_create_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baseline_add_24"
-        app:tint="@android:color/white"
-        android:backgroundTint="@color/red_button"
-        app:layout_anchor="@id/bottomAppBar"
-        app:maxImageSize="40dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="24dp"/> <!-- Margin suficient pentru a nu se suprapune cu BottomAppBar -->
+        android:layout_marginBottom="24dp">
+
+        <!-- Buton pentru crearea alarmei -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_create_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:backgroundTint="@color/red_button"
+            android:src="@drawable/baseline_add_24"
+
+            app:maxImageSize="40dp"
+            app:tint="@android:color/white" />
+
+        <!-- Buton pentru ștergerea alarmei -->
+        <Button
+            android:id="@+id/btn_delete_alarm"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:visibility="gone"
+            android:background="@drawable/round_button_background"
+            android:drawableTop="@drawable/baseline_remove_24"
+            android:minWidth="10dp"
+            android:minHeight="20dp"
+            android:paddingTop="5dp"
+            app:tint="@android:color/white" />
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
