@@ -33,7 +33,7 @@ public class MediaPlayerService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private boolean isRepeating = false;
+    private boolean isRepeating = true;
 
     private void startMusic(String melodie) {
         if (mediaPlayer == null) {

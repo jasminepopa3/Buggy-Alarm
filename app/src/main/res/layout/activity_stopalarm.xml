@@ -18,6 +18,16 @@
         android:textSize="35sp" />
 
     <TextView
+        android:id="@+id/questions_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="70dp"
+        android:text="Time spent on each question:"
+        android:textAlignment="center"
+        android:textSize="35sp" />
+
+    <TextView
         android:id="@+id/average_time_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
