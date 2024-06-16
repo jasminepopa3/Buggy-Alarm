@@ -8,10 +8,10 @@
 - [Popa Jasmine-Mihaela, group, UB](https://github.com/jasminepopa3)
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="buggy3.jpg" alt="Bug 3" height="400" style="width: 23%;">
-    <img src="buggy4.jpg" alt="Bug 4" height="400" style="width: 23%;">
-    <img src="buggy2.jpg" alt="Bug 2" height="400" style="width: 23%;">
-    <img src="buggy1.jpg" alt="Bug 1" height="400" style="width: 23%;">
+    <img src="buggy3.jpg" alt="Bug 3" height="400" style="width: 24%;">
+    <img src="buggy4.jpg" alt="Bug 4" height="400" style="width: 24%;">
+    <img src="buggy2.jpg" alt="Bug 2" height="400" style="width: 24%;">
+    <img src="buggy1.jpg" alt="Bug 1" height="400" style="width: 24%;">
 </div>
 
 ---
