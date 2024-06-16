@@ -64,14 +64,15 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     public class AlarmViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtTime;
-        private TextView txtAmPm;
+
+//        private TextView txtAmPm;
         private TextView txtWeek;
         private Switch switchAlarm;
 
         public AlarmViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTime = itemView.findViewById(R.id.txtTime);
-            txtAmPm = itemView.findViewById(R.id.txtAmPm);
+//            txtAmPm = itemView.findViewById(R.id.txtAmPm);
             txtWeek = itemView.findViewById(R.id.txtWeek);
             switchAlarm = itemView.findViewById(R.id.switch1);
 
@@ -148,7 +149,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
         public void bind(Alarm alarm) {
             txtTime.setText(String.format(Locale.getDefault(), "%02d:%02d", alarm.getHour(), alarm.getMinute()));
-            txtAmPm.setText(alarm.getPeriod().toLowerCase());
+//            txtAmPm.setText(alarm.getPeriod().toLowerCase());
             txtWeek.setText(alarm.getRepeatingDays());
             switchAlarm.setChecked(alarm.isEnabled());
         }
