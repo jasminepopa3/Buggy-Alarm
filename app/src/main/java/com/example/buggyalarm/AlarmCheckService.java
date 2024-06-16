@@ -20,10 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +34,16 @@ public class AlarmCheckService extends Service {
         handler = new Handler();
         alarmsList = new ArrayList<>();
 
-        // Initialize the runnable for periodic checks
+        // Inițializați runnable-ul pentru verificări periodice
         runnable = new Runnable() {
             @Override
             public void run() {
                 fetchAlarmsFromFirebase();
-                handler.postDelayed(this, 1000); // Check every second
+                handler.postDelayed(this, 60000); // Verifică la fiecare minut
             }
         };
 
-        // Start periodic checks
+        // Porniți verificările periodice
         handler.post(runnable);
     }
 
@@ -59,7 +55,7 @@ public class AlarmCheckService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Stop periodic checks
+        // Opriți verificările periodice
         handler.removeCallbacks(runnable);
     }
 
@@ -80,57 +76,25 @@ public class AlarmCheckService extends Service {
                     alarmsList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Alarm alarm = snapshot.getValue(Alarm.class);
-                        if (alarm != null && alarm.isEnabled() && (isAlarmForToday(alarm) || shouldRepeatEveryday(alarm))) {
-                            alarmsList.add(alarm);
-                        }
+                        alarmsList.add(alarm);
                     }
                     checkAlarms();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    // Handle error
+                    // Tratează eroarea
                 }
             });
         }
     }
 
-    private boolean isAlarmForToday(Alarm alarm) {
-        DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
-        switch (currentDay) {
-            case MONDAY:
-                return alarm.isMon();
-            case TUESDAY:
-                return alarm.isTue();
-            case WEDNESDAY:
-                return alarm.isWed();
-            case THURSDAY:
-                return alarm.isThu();
-            case FRIDAY:
-                return alarm.isFri();
-            case SATURDAY:
-                return alarm.isSat();
-            case SUNDAY:
-                return alarm.isSun();
-            default:
-                return false;
-        }
-    }
-
-    private boolean shouldRepeatEveryday(Alarm alarm) {
-        // Verificăm dacă toate zilele săptămânii sunt setate pe false și alarma este activată
-        return !alarm.isMon() && !alarm.isTue() && !alarm.isWed() && !alarm.isThu()
-                && !alarm.isFri() && !alarm.isSat() && !alarm.isSun() && alarm.isEnabled();
-    }
-
-
     private void checkAlarms() {
-        int currentHour = LocalTime.now().getHour();
-        int currentMinute = LocalTime.now().getMinute();
-        int currentSecond = LocalTime.now().getSecond();
+        int currentHour = java.time.LocalTime.now().getHour();
+        int currentMinute = java.time.LocalTime.now().getMinute();
 
         for (Alarm alarm : alarmsList) {
-            if (alarm.getHour() == currentHour && alarm.getMinute() == currentMinute && currentSecond == 0) {
+            if (alarm.getHour() == currentHour && alarm.getMinute() == currentMinute) {
                 makeNotification(alarm);
             }
         }
@@ -141,14 +105,14 @@ public class AlarmCheckService extends Service {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(getApplicationContext(), channelId);
         builder.setSmallIcon(R.drawable.ic_notifications)
-                .setContentTitle("BUGGY ALARM: TIME TO FIX SOME ERRORS!")
-                .setContentText("Solve the quiz to stop the alarm!\n Are you ready?" + alarm.getMelody())
+                .setContentTitle("Alarma programatori")
+                .setContentText("Alarma canta: " + alarm.getMelody())
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("data", "It's bug o'clock!");
+        intent.putExtra("data", "Alarma canta");
 
         // Adăugăm un extra în Intent pentru a indica că trebuie să pornim serviciul MediaPlayerService
         intent.putExtra("playMusic", true);
@@ -163,7 +127,7 @@ public class AlarmCheckService extends Service {
                     notificationManager.getNotificationChannel(channelId);
             if (notificationChannel == null) {
                 int importance = NotificationManager.IMPORTANCE_HIGH;
-                notificationChannel = new NotificationChannel(channelId, "A new coding challenge is waiting for you!", importance);
+                notificationChannel = new NotificationChannel(channelId, "Some description", importance);
                 notificationChannel.setLightColor(Color.GREEN);
                 notificationChannel.enableVibration(true);
                 notificationManager.createNotificationChannel(notificationChannel);
