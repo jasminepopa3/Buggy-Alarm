@@ -30,7 +30,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -41,7 +41,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation("com.google.firebase:firebase-database:21.0.0")
-    implementation ("com.google.firebase:firebase-auth:23.0.0") // Add this line for Firebase Authentication
+    implementation("com.google.firebase:firebase-auth:21.0.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
