@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Definește un stil personalizat pentru TimePicker în modul Night -->
+    <style name="CustomTimePickerNight" parent="Theme.AppCompat.DayNight.Dialog">
+        <!-- Setați culoarea textului -->
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#000000</item>
+        <item name="android:textColor">#000000</item>
+
+        <!-- Setați culoarea indicatorului (liniilor) -->
+        <item name="colorControlActivated">#000000</item>
+        <item name="colorAccent">#000000</item>
+        <!-- Alte atribute specifice pentru Night Mode -->
+    </style>
+</resources>

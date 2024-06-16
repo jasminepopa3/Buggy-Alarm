@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabCreateAlarm;
     private FirebaseAuth mAuth;
     private TextView noAlarmsTextView;
+    private Button btnDeleteAlarm;
+    private Alarm selectedAlarm = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cover_image, options);
         imageView.setImageBitmap(bitmap);
         noAlarmsTextView = findViewById(R.id.noAlarmsTextView);
+        btnDeleteAlarm = findViewById(R.id.btn_delete_alarm);
 
         recyclerView = findViewById(R.id.alarm_recycler_view);
         fabCreateAlarm = findViewById(R.id.fab_create_alarm);
@@ -84,9 +88,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        // Set long click listener for the adapter
+        alarmAdapter.setOnAlarmLongClickListener(new AlarmAdapter.OnAlarmLongClickListener() {
+            @Override
+            public void onLongClick(int position) {
+                selectedAlarm = alarmList.get(position);
+                btnDeleteAlarm.setVisibility(View.VISIBLE);
+                fabCreateAlarm.setVisibility(View.GONE);
+            }
+        });
+        // Set click listener for the Delete button
+
+        btnDeleteAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedAlarm != null) {
+                    deleteAlarm(selectedAlarm);
+                    selectedAlarm = null;
+                    btnDeleteAlarm.setVisibility(View.GONE);
+                    fabCreateAlarm.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
         // Fetch alarms from Firebase
         fetchAlarmsFromFirebase();
+
+
     }
+
 
     private void fetchAlarmsFromFirebase() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -133,5 +165,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+    private void deleteAlarm(Alarm alarm) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            DatabaseReference alarmRef = FirebaseDatabase.getInstance().getReference()
+                    .child("user_alarms").child(currentUser.getUid()).child(alarm.getId());
+            alarmRef.removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Remove alarm from the list
+                    alarmList.remove(alarm);
+                    alarmAdapter.notifyDataSetChanged();
+                    Toast.makeText(MainActivity.this, "Alarm deleted.", Toast.LENGTH_SHORT).show();
+
+                    // Check if there are no alarms and update the visibility of the TextView
+                    if (alarmList.isEmpty()) {
+                        noAlarmsTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        noAlarmsTextView.setVisibility(View.GONE);
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Failed to delete alarm.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 
 }

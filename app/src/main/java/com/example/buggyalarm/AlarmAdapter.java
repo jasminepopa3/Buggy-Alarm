@@ -1,6 +1,7 @@
 package com.example.buggyalarm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,29 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder> {
 
     private Context context;
     private List<Alarm> alarmList;
+    private OnAlarmLongClickListener longClickListener;
+
+    // Interface for long click listener
+    public interface OnAlarmLongClickListener {
+        void onLongClick(int position);
+    }
 
     public AlarmAdapter(Context context, List<Alarm> alarmList) {
         this.context = context;
         this.alarmList = alarmList;
+    }
+
+    public void setOnAlarmLongClickListener(OnAlarmLongClickListener listener) {
+        this.longClickListener = listener;
     }
 
     @NonNull
@@ -61,17 +74,50 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             txtWeek = itemView.findViewById(R.id.txtWeek);
             switchAlarm = itemView.findViewById(R.id.switch1);
 
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && longClickListener != null) {
+                        longClickListener.onLongClick(position);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Alarm alarm = alarmList.get(position);
+                        Intent intent = new Intent(context, EditAlarmActivity.class);
+                        intent.putExtra("alarmId", alarm.getId());
+                        intent.putExtra("hour", alarm.getHour());
+                        intent.putExtra("minute", alarm.getMinute());
+                        intent.putExtra("melody", alarm.getMelody());
+                        intent.putExtra("mon", alarm.isMon());
+                        intent.putExtra("tue", alarm.isTue());
+                        intent.putExtra("wed", alarm.isWed());
+                        intent.putExtra("thu", alarm.isThu());
+                        intent.putExtra("fri", alarm.isFri());
+                        intent.putExtra("sat", alarm.isSat());
+                        intent.putExtra("sun", alarm.isSun());
+                        context.startActivity(intent);
+                    }
+                }
+            });
+
             switchAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // Avoid triggering listener when setting initial state
                     if (buttonView.isPressed()) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             Alarm alarm = alarmList.get(position);
                             alarm.setEnabled(isChecked);
 
-                            // Update Firebase with the new state
                             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                             if (currentUser != null) {
                                 DatabaseReference alarmRef = FirebaseDatabase.getInstance().getReference()

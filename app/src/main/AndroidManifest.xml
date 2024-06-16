@@ -40,6 +40,8 @@
             android:exported="true">
         </activity>
 
+        <activity android:name=".EditAlarmActivity">
+        </activity>
         <activity
             android:name=".QuizActivity">
         </activity>
