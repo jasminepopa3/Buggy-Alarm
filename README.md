@@ -5,7 +5,7 @@
 👩🏻‍💻 **Team Members:**
 - [Lungu Laura-Vanesa, UB](https://github.com/LVanesa)
 - [Negoiță-Crețu Raluca-Marina, UB](https://github.com/ncraluca)
-- [Popa Jasmine-Mihaela, group, UB](https://github.com/jasminepopa3)
+- [Popa Jasmine-Mihaela, UB](https://github.com/jasminepopa3)
 
 ---
 
