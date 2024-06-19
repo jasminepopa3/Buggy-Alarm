@@ -64,5 +64,8 @@ Android Studio IDE (Java) + Firebase (Database)
 - [x] Integrate the option to select the programming language.
 - [x] Integrate the option to select the number of bugs.
 - [x] Integrate the option to select the difficulty level.
+- [x] Integrate the calculation of time spent on each task.
+- [x] Integrate the calculation of average time spent on tasks.
+- [x] Integrate the possibility to edit and delete alarms.
 
 
